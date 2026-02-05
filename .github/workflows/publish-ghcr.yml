@@ -22,9 +22,12 @@ jobs:
                   username: ${{ github.actor }}
                   password: ${{ secrets.GITHUB_TOKEN }}
 
+            - name: Lowercase repo name
+              run: echo "REPO_NAME_LOWER=${GITHUB_REPOSITORY,,}" >> ${GITHUB_ENV}
+
             - name: Build & Push
               uses: docker/build-push-action@v6
               with:
                   context: .
                   push: true
-                  tags: ghcr.io/${{ github.repository }}:latest
+                  tags: ghcr.io/${{ env.REPO_NAME_LOWER }}:latest
